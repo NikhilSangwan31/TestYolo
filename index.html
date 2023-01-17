@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #pet-list-container {
+            width: 100%;
+            max-height: 521px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            min-height: 400px;
+        }
+
+        div#pet-list {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -7px;
+            padding: 15px;
+        }
+        .title{
+            background-color: black;
+            color: #fff;
+        }
+
+        .pet-list-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            max-width: 38.5%;
+            min-width: calc(20% - 14px);
+            border: 1px solid #eee;
+            background: #fff;
+            box-shadow: 0 0 15px rgb(0 0 0 / 25%);
+            margin: 0 7px 14px;
+            /* flex-wrap: inherit; */
+        }
+
+        /* .pet-list-item>div {
+            display: flex;
+        } */
+
+        .pet-list-item .pet-details {
+            width: 100%;
+            padding: 10px 0 3px;
+            display: block;
+        }
+
+        .pet-list-item img {
+            width: 90px;
+            height: 90px;
+            margin-right: 10px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            margin: 0 auto;
+            max-width: 1250px;
+            padding: 30px 15px;
+        }
+
+        .pet-details p {
+            font-size: 15px;
+            margin: 0 0 8px;
+            line-height: 19px;
+        }
+
+        .pet-details p b {
+            font-size: 15px;
+            padding-right: 5px;
+            ;
+        }
+
+        .hidePetDetails {
+            display: none;
+        }
+
+        .wrap-Word {
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-20 title">YOLO PET ADOPTION</h1>
+        <div id="pet-list-container">
+            <div id="pet-list">
+                <!-- Pet list items will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        // Array of pets
+        const pets = [
+            {
+                name: "Fluffy",
+                age: 1,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475214/3/?bust=1673795551&width=100",
+                description:
+                    "Meet Molly!\n\nThis up and coming lady is looking for new opportunities! She is currently healing from a bad injury...",
+                type: "Dog",
+                "Adoption fee": " $100",
+                gender: "female",
+                id: "1"
+            },
+            {
+                name: "Poe",
+                age: 2,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475214/1/?bust=1673795552&width=100",
+                type: "Dog",
+                description:
+                    "Meet Poe, he came to us from a terrible person who was going to shoot him if we didnt take...",
+                "Adoption fee": " $110",
+                gender: "male",
+                id: "2"
+            },
+            {
+                name: "Crimson",
+                age: 3,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475280/1/?bust=1673795661&width=100",
+                type: "Cat",
+                "Adoption fee": " $130",
+                gender: "female",
+                description:
+                    "Crimson is in the middle of his teen years and still learning life skills. He is likely to enjoy an...",
+                id: "3",
+            },
+            {
+                name: "Buddy",
+                age: 4,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475284/1/?bust=1673796318&width=100",
+                description:
+                    "Primary Color: Brown Weight: 9lbs Age: 1yrs 3mths 2wks Animal has been Spayed",
+                "Adoption fee": " $210",
+                gender: "female",
+                id: "4",
+                type: "Dog",
+            },
+            {
+                name: "Buddy",
+                age: 5,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475281/1/?bust=1673795684&width=100",
+                type: "Cat",
+                description:
+                    "Evie was found dumped outside shortly before Christmas Eve. She is very friendly and super affectionate, Evie loves is a...",
+                "Adoption fee": " $210",
+                gender: "female",
+                id: "5"
+            },
+            {
+                name: "Poncho",
+                age: 6,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475278/1/?bust=1673795638&width=100",
+                type: "Dog",
+                description:
+                    "Poncho is in the middle of his teen years and still learning life skills. He is likely to enjoy an...",
+                "Adoption fee": " $220",
+                gender: "male",
+                id: "6"
+            },
+            {
+                name: "Ruddy",
+                age: 7,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475275/1/?bust=1673795631&width=100",
+                type: "Cat",
+                description: "this is description of Ruddy",
+                "Adoption fee": " $120",
+                gender: "female",
+                id: "7"
+            },
+            {
+                name: "Pam",
+                age: 8,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475276/1/?bust=1673796241&width=100",
+                type: "Dog",
+                description: "Pam this is description ",
+                "Adoption fee": " $220",
+                gender: "male",
+                id: "8"
+            },
+            {
+                name: "Dunkel",
+                age: 9,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475394/1/?bust=1673796960&width=100",
+                type: "Cat",
+                description:
+                    "Hi , my name is Dunkel. I came in with my three siblings (Pumpkin, Stuffing and Pudding) as teeny babies-...",
+                "Adoption fee": " $160",
+                gender: "female",
+                id: "9"
+            },
+            {
+                name: "Kita",
+                age: 10,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475384/1/?bust=1673796862&width=10",
+                description:
+                    "Polly Pocket is playful, chatty, family-friendly and READY TO GO HOME WITH YOU!",
+                type: "Cat",
+                "Adoption fee": " $120",
+                gender: "male",
+                id: "10"
+            },
+            {
+                name: "Moddy",
+                age: 11,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475274/2/?bust=1673795607&width=100",
+                type: "Dog",
+                description: "Mock, chatty, family-friendly and READ",
+                "Adoption fee": " $250",
+                gender: "male",
+                id: "11"
+            },
+            {
+                name: "Novela",
+                age: 12,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475374/1/?bust=1673796741&width=100",
+                type: "Cat",
+                description: "Mock, chatty, family-friendly and READ",
+                "Adoption fee": " $150",
+                gender: "female",
+                id: "12"
+            },
+            {
+                name: "Willow",
+                age: 13,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475367/1/?bust=1673796651&width=100",
+                type: "Cat",
+                description:
+                    "Willow is a sweet, gentle soul.\n\nShe was rescued from a hoarding case of 17 cats and spent most of...",
+                "Adoption fee": " $110",
+                gender: "female",
+                id: "13"
+            },
+            {
+                name: "Bud",
+                age: 14,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475259/1/?bust=1673795555&width=100",
+                type: "Dog",
+                description: "Mock, chatty, family-friendly and READ",
+                "Adoption fee": " $290",
+                gender: "male",
+                id: "14"
+            },
+            {
+                name: "Cookie",
+                age: 15,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475357/1/?bust=1673796495&width=100",
+                type: "Cat",
+                description:
+                    "“C” is for Cookie, and a cuddle kitten is me.\n“C” is for Cookie, I am adorable wait and see....",
+                "Adoption fee": " $130",
+                gender: "male",
+                id: "15"
+            },
+            {
+                name: "Boo",
+                age: 16,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475355/1/?bust=1673796460&width=100",
+                type: "Cat",
+                description:
+                    "Hey everyone!\n\nMy name is Boo and I came to the shelter with my brother Milo and sister Polly.  We...",
+                "Adoption fee": " $250",
+                gender: "male",
+                id: "16"
+            },
+            {
+                name: "Milo",
+                age: 17,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475277/1/?bust=1673796239&width=100",
+                type: "Dog",
+                description: "Milo, chatty, family-friendly and READ",
+                "Adoption fee": " $150",
+                gender: "male",
+                id: "17"
+            },
+            {
+                name: "Spike",
+                age: 18,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475354/3/?bust=1673796460&width=100",
+                type: "Cat",
+                description:
+                    "Spike is a 8 month old orange tabby male. He loves to make biscuits and to be held like a...",
+                "Adoption fee": " $120",
+                gender: "male",
+                id: "18"
+            },
+            {
+                name: "Clover",
+                age: 19,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475346/1/?bust=1673796294&width=100",
+                type: "Cat",
+                description:
+                    "Spike is a 8 month old orange tabby male. He loves to make biscuits and to be held like a...",
+                "Adoption fee": " $250",
+                gender: "male",
+                id: "19"
+            },
+            {
+                name: "Tod",
+                age: 20,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475274/6/?bust=1673795609&width=100",
+                type: "Dog",
+                description: "Mock, chatty, family-friendly and READ",
+                "Adoption fee": " $250",
+                gender: "male",
+                id: "20"
+            },
+            {
+                name: "Maple",
+                age: 21,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475345/1/?bust=1673796239&width=100",
+                type: "Cat",
+                description:
+                    "This sweet girl came to us a stray and was never claimed by an owner. She has a beautiful, velvety...",
+                "Adoption fee": " $150",
+                gender: "female",
+                id: "21"
+            },
+            {
+                name: "Presa",
+                age: 22,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475305/2/?bust=1673795776&width=100",
+                type: "Cat",
+                description:
+                    "Presa is a 7 year old female kitty. She is fairly shy at first, but warms up. She loves to...",
+                "Adoption fee": " $250",
+                gender: "female",
+                id: "22"
+            },
+            {
+                name: "Battle",
+                age: 23,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475270/1/?bust=1673796184&width=100",
+                type: "Dog",
+                description: "Mock, chatty, family-friendly and READ",
+                "Adoption fee": " $250",
+                gender: "male",
+                id: "23"
+            },
+            {
+                name: "Catalpa",
+                age: 24,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475334/2/?bust=1673796145&width=100",
+                type: "Cat",
+                description:
+                    "Meet Truffle and Catalpa!\nTruffle and Catalpa are 5 months old bonded brother and sister. Truffle is the sweetest boy...",
+                "Adoption fee": " $150",
+                gender: "male",
+                id: "24"
+            },
+            {
+                name: "ALIA",
+                age: 25,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475319/4/?bust=1673796088&width=100",
+                type: "Cat",
+                description:
+                    "This is Alia.  She is here with her sister Alieena and they are both pretty black cats in search of...",
+                "Adoption fee": " $120",
+                gender: "female",
+                id: "25"
+            },
+            {
+                name: "Bup", age: 26, image: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475309/1/?bust=1673796139&width=100", type: "Cat",
+                "Adoption fee": " $150",
+                description: "This is bup for her sister Alieena and her are both pretty black cats",
+                gender: "female",
+                id: "26"
+            },
+            {
+                name: "Buddy",
+                age: 27,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475269/1/?bust=1673796173&width=100",
+                type: "Dog",
+
+                description: "This is buddy for her sister Alieena and her are both pretty black dogs",
+                "Adoption fee": " $130",
+                gender: "male",
+                id: "27"
+            },
+            {
+                name: "ALEENA",
+                age: 28,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475309/1/?bust=1673796139&width=100",
+                type: "Cat",
+                description:
+                    "This is Aleena.  She is here with her sister Alia, and they are both pretty black cats in search of...",
+                "Adoption fee": " $230",
+                gender: "female",
+                id: "28"
+            },
+            {
+                name: "Tom",
+                age: 29,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475264/1/?bust=1673795558&width=100",
+                type: "Dog",
+                description: "This is Tom he is smart and loyal dog",
+                "Adoption fee": " $130",
+                gender: "male",
+                id: "29"
+            },
+            {
+                name: "Harry",
+                age: 30,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475258/2/?bust=1673795557&width=100",
+                type: "Dog",
+                description: "This is Harry he is smart and loyal dog",
+                "Adoption fee": " $190",
+                gender: "male",
+                id: "30"
+            },
+            {
+                name: "Mat",
+                age: 31,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475262/1/?bust=1673796162&width=100",
+                type: "Dog",
+                description: "This is Mat he is smart and loyal dog",
+                "Adoption fee": " $290",
+                gender: "male",
+                id: "31"
+            },
+            {
+                name: "Ruby",
+                age: 32,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475252/2/?bust=1673795540&width=100",
+                type: "Dog",
+                description: "This is Ruby she is smart and loyal dog",
+                "Adoption fee": " $170",
+                gender: "male",
+                id: "32"
+            },
+            {
+                name: "Sloan",
+                age: 33,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475305/1/?bust=1673795775&width=100",
+                type: "Cat",
+                description:
+                    "Sloan is a 7 year old female kitty. She is fairly shy at first, but warms up. She loves to...",
+                "Adoption fee": " $150",
+                gender: "female",
+                id: "33"
+            },
+            {
+                name: "Bamboo",
+                age: 34,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475303/1/?bust=1673795760&width=100",
+                type: "Cat",
+                description:
+                    "Bamboo is a cute male kitten who was brought to the HSOV on October 21, 2022 after he was found...",
+                "Adoption fee": " $270",
+                gender: "male",
+                id: "34"
+            },
+            {
+                name: "Buddy",
+                age: 26,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475249/1/?bust=1673796138&width=100",
+                type: "Dog",
+                description:
+                    "Was brought to the HSOV on October 21, 2022 after he was found...",
+                "Adoption fee": " $240",
+                gender: "male",
+                id: "35"
+            },
+            {
+                name: "Fable",
+                age: 27,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475304/1/?bust=1673796366&width=100",
+                type: "Cat",
+                description:
+                    "She is fairly shy at first, but warms up. She loves to...",
+                "Adoption fee": " $110",
+                gender: "female",
+                id: "36"
+            },
+            {
+                name: "Handsome",
+                age: 28,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475300/1/?bust=1673796360&width=100",
+                type: "Cat",
+                description:
+                    "Primary Color: Orange Tabby Secondary Color: White Weight: 10.5lbs Age: 2yrs 0mths 4wks Animal has been Neutered",
+                "Adoption fee": " $170",
+                gender: "male",
+                id: "37"
+            },
+            {
+                name: "Ruddy",
+                age: 29,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475248/2/?bust=1673796133&width=100",
+                type: "Dog",
+                description: "Primary Color: Orange Tabby Secondary Color: White Weight: 10.5lbs",
+                "Adoption fee": " $270",
+                gender: "male",
+                id: "38"
+            },
+            {
+                name: "Maple",
+                age: 30,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475345/1/?bust=1673796239&width=100",
+                type: "Cat",
+                description:
+                    "This sweet girl came to us a stray and was never claimed by an owner. She has a beautiful, velvety...",
+                "Adoption fee": " $130",
+                gender: "female",
+                id: "39"
+            },
+            {
+                name: "Truffle",
+                age: 31,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475334/2/?bust=1673796145&width=100",
+                type: "Cat",
+                description:
+                    "Truffle  5 months old bonded brother and sister. Truffle is the sweetest boy...",
+                "Adoption fee": " $170",
+                gender: "male",
+                id: "40"
+            },
+            {
+                name: "Buddy",
+                age: 32,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475242/3/?bust=1673795327&width=100",
+                type: "Dog",
+                description:
+                    "Primary Color: Orange Tabby Secondary Color: White Weight: 10.5lbs Age: 2yrs 0mths 4wks Animal has been Neutered",
+                "Adoption fee": " $180",
+                gender: "male",
+                id: "41"
+            },
+            {
+                name: "Buddy",
+                age: 33,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475244/1/?bust=1673795365&width=100",
+                type: "Dog",
+                description:
+                    "Primary Color: Orange Tabby Secondary Color: White Weight: 10.5lbs Age: 2yrs 0mths 4wks Animal has been Neutered",
+                "Adoption fee": " $165",
+                gender: "male",
+                id: "42"
+            },
+            {
+                name: "Buddy",
+                age: 34,
+                image:
+                    "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/59475334/2/?bust=1673796145&width=100",
+                type: "Cat",
+                description:
+                    "Primary Color: Orange Tabby Secondary Color: White Weight: 10.5lbs Age: 2yrs 0mths 4wks Animal has been Neutered",
+                "Adoption fee": " $173",
+                gender: "female",
+                id: "43"
+            },
+            // ...
+        ];
+
+        // Number of pets to display at a time
+        const petsPerPage = 20;
+
+        // Current page number
+        let currentPage = 1;
+
+        // Function to display pets
+        function displayPets() {
+            ;
+            // Clear the pet list container
+            const existingPetListItems = document.querySelectorAll(".pet-list-item").length;
+            document.querySelector("#pet-list").innerHTML = "";
+            console.log("pet list currentPage", currentPage);
+            // Determine the starting and ending indices for the current page
+            const startIndex = existingPetListItems + 1;
+            console.log("pet list startIndex", startIndex);
+            const endIndex = (existingPetListItems == 0) ? 20 : existingPetListItems + 20;
+            console.log("pet list endIndex", endIndex);
+            // Loop through the pets and create a list item for each one
+            let petListDiv = document.createElement("div");
+            for (let i = startIndex; i <= endIndex; i++) {
+                if (!pets[i - 1]) {
+                    // If there are no more pets, exit the loop
+                    break;
+                }
+                const pet = pets[i - 1];
+                const petListItem = document.createElement("div");
+                petListItem.classList.add("pet-list-item");
+                petListItem.innerHTML = `
+            <div class="petBasicInfo">
+                <img src="${pet?.image}" alt="${pet?.name}">
+                <div>
+                <h3 class="petName"> ${pet?.name}</h3>
+                <p>Age: ${pet?.age}</p>
+                </div>
+            </div>
+            <div class="hidePetDetails">
+                <p><b>Type:</b>${pet?.type}</p>
+                <p><b>Gender:</b>${pet?.gender}</p>
+                <p class="wrap-Word"><b>Description:</b>${pet?.description}</p>
+                <h6><b>Adoption fee:</b>${pet["Adoption fee"]}</h6>
+            </div>
+
+          `;
+                petListDiv.appendChild(petListItem);
+
+            }
+
+            return petListDiv.innerHTML;
+        }
+
+        // Call the displayPets function to display the first page of pets
+        const registerClick = () => {
+            document.querySelectorAll(".petBasicInfo").forEach((item) => item.addEventListener('click', function (event) {
+                debugger;
+                const petDetailsDiv = event.currentTarget.nextElementSibling;
+                if (petDetailsDiv.classList.contains("hidePetDetails")) {
+                    petDetailsDiv.classList.remove("hidePetDetails");
+                    petDetailsDiv.classList.add("pet-details");
+                }
+                else {
+                    petDetailsDiv.classList.add("hidePetDetails");
+                    petDetailsDiv.classList.remove("pet-details");
+                }
+
+            }));
+        }
+        const petListElem = displayPets();
+        document.querySelector("#pet-list").innerHTML = petListElem;
+        registerClick();
+        // Add event listener to the scrollbar of the pet-list-container to detect when it reaches the end
+        document
+            .querySelector("#pet-list-container")
+            .addEventListener("scroll", function () {
+                var endOfScroll = this.scrollHeight - this.clientHeight;
+
+                console.log("pet list calling next", this.scrollTop, endOfScroll);
+                ;
+                if (
+                    Math.ceil(this.scrollTop) == endOfScroll &&
+                    Object.keys(pets).length > currentPage * 20
+                ) {
+
+                    const existingHtml = document.querySelector("#pet-list").innerHTML;
+                    // If the scrollbar reaches the end,
+                    // If the scrollbar reaches the end, increment the current page number
+                    console.log("pet list calling next", currentPage);
+                    currentPage = currentPage + 1;
+                    // Call the displayPets function again to display the next set of pets
+                    const newHtml = displayPets();
+
+                    document.querySelector("#pet-list").innerHTML = existingHtml + newHtml;
+                    registerClick();
+                }
+            });
+
+
+
+    </script>
+</body>
+
+</html>
